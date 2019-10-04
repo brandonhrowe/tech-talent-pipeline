@@ -1,5 +1,5 @@
 {
-  "name": "tech-talent-pipeline",
+  "name": "ttp-stockup",
   "version": "1.0.0",
   "description": "Stock portfolio app for the Tech Talent Pipeline assessment, Stage 2. Completed by Brandon Rowe.",
   "main": "index.js",
@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "pg": "^7.12.1",
+    "sequelize": "^5.19.2"
   }
 }
