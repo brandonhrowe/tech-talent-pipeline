@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../store";
 
 class Login extends Component {
   constructor() {
@@ -46,6 +48,7 @@ class Login extends Component {
 
   render() {
     const { fields } = this.state;
+    const { handleLogin } = this.props;
     return (
       <section className="hero is-fullheight is-danger">
         <div className="hero-body">
@@ -54,7 +57,7 @@ class Login extends Component {
             <div className="columns is-centered">
               <div className="column is-narrow">
                 <Link className="is-link has-text-black" to="/login">
-                  Log In
+                  <u>Log In</u>
                 </Link>
               </div>
               <div className="column is-narrow has-text-black">|</div>
@@ -66,7 +69,7 @@ class Login extends Component {
             </div>
             <div className="columns is-centered">
               <div className="column is-half">
-                <form className="form">
+                <form className="form" onSubmit={handleLogin}>
                   {fields.map(({ name, type }, i) => {
                     return this.renderInput(name, type, i);
                   })}
@@ -85,4 +88,20 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatch = (dispatch, prevProps) => ({
+  handleLogin: e => {
+    e.preventDefault();
+    const { email, password } = e.target;
+    const values = {
+      email: email.value,
+      password: password.value,
+      history: prevProps.history
+    };
+    dispatch(login(values));
+  }
+});
+
+export default connect(
+  null,
+  mapDispatch
+)(Login);

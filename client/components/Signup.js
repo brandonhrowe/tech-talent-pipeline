@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { signup } from "../store";
 
 class Signup extends Component {
   constructor() {
@@ -22,6 +24,19 @@ class Signup extends Component {
       errors: {}
     };
   }
+
+  // signup(e) {
+  //   e.preventDefault();
+  //   const { name, email, password } = e.target;
+  //   const values = {
+  //     name: name.value,
+  //     email: email.value,
+  //     password: password.value,
+  //     method: "signup"
+  //   };
+  //   console.log(this.props)
+  //   this.props.handleSignup(values);
+  // }
 
   renderInput(name, type, i) {
     return (
@@ -50,6 +65,7 @@ class Signup extends Component {
 
   render() {
     const { fields } = this.state;
+    const { handleSignup } = this.props;
     return (
       <section className="hero is-fullheight is-danger">
         <div className="hero-body">
@@ -64,13 +80,13 @@ class Signup extends Component {
               <div className="column is-narrow has-text-black">|</div>
               <div className="column is-narrow">
                 <Link className="is-link has-text-black" to="/signup">
-                  Sign Up
+                  <u>Sign Up</u>
                 </Link>
               </div>
             </div>
             <div className="columns is-centered">
               <div className="column is-half">
-                <form className="form">
+                <form className="form" onSubmit={handleSignup}>
                   {fields.map(({ name, type }, i) => {
                     return this.renderInput(name, type, i);
                   })}
@@ -89,4 +105,21 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+const mapDispatch = (dispatch, prevProps) => ({
+  handleSignup: e => {
+    e.preventDefault();
+    const { name, email, password } = e.target;
+    const values = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      history: prevProps.history
+    };
+    dispatch(signup(values));
+  }
+});
+
+export default connect(
+  null,
+  mapDispatch
+)(Signup);

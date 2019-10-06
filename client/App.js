@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 import Header from "./components/Header";
 import Routes from "./Routes";
+import axios from "axios";
+import { currUser, auth } from "./store";
+import { connect } from "react-redux";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      user: {}
-    };
+  componentDidMount() {
+    this.props.loadUser();
   }
 
-
   render() {
-    const { user } = this.state;
+    const { user } = this.props;
     return (
       <div>
         {user.id ? <Header user={user} /> : null}
@@ -22,4 +21,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapState = state => ({
+  user: state.user
+});
+
+const mapDispatch = dispatch => ({
+  loadUser: () => dispatch(currUser())
+});
+
+export default connect(
+  mapState,
+  mapDispatch
+)(App);

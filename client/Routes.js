@@ -11,8 +11,6 @@ class Routes extends Component {
     const { user } = this.props;
     return (
       <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
         {user.id && (
           <Switch>
             <Route path="/portfolio" component={Portfolio} />
@@ -20,6 +18,8 @@ class Routes extends Component {
             <Route component={Portfolio} />
           </Switch>
         )}
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
         <Route component={Login} />
       </Switch>
     );

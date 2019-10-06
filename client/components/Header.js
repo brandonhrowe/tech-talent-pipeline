@@ -1,9 +1,23 @@
 import React, { Component } from "react";
+import { logout } from "../store";
+import { connect } from "react-redux";
 
 class Header extends Component {
   render() {
-    return <div>HEADER PLACEHOLDER</div>;
+    const { handleLogout } = this.props;
+    return (
+      <div className="button" onClick={handleLogout}>
+        Log Out
+      </div>
+    );
   }
 }
 
-export default Header;
+const mapDispatch = dispatch => ({
+  handleLogout: () => dispatch(logout())
+});
+
+export default connect(
+  null,
+  mapDispatch
+)(Header);
