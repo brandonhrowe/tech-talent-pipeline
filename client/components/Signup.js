@@ -71,19 +71,10 @@ class Signup extends Component {
         <div className="hero-body">
           <div className="container has-text-centered">
             <h1 className="title has-text-black">STOCK UP</h1>
-            <div className="columns is-centered">
-              <div className="column is-narrow">
-                <Link className="is-link has-text-black" to="/login">
-                  Log In
-                </Link>
-              </div>
-              <div className="column is-narrow has-text-black">|</div>
-              <div className="column is-narrow">
-                <Link className="is-link has-text-black" to="/signup">
-                  <u>Sign Up</u>
-                </Link>
-              </div>
-            </div>
+            <h2 className="has-text-black">
+              <u>REGISTER</u>
+            </h2>
+
             <div className="columns is-centered">
               <div className="column is-half">
                 <form className="form" onSubmit={handleSignup}>
@@ -96,6 +87,19 @@ class Signup extends Component {
                     </button>
                   </div>
                 </form>
+              </div>
+            </div>
+            <div className="columns is-centered">
+              <div className="column is-narrow">
+                <Link className="is-link has-text-black" to="/login">
+                  Log In
+                </Link>
+              </div>
+              <div className="column is-narrow has-text-black">|</div>
+              <div className="column is-narrow">
+                <Link className="is-link has-text-black" to="/signup">
+                  <u>Sign Up</u>
+                </Link>
               </div>
             </div>
           </div>

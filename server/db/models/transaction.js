@@ -9,7 +9,20 @@ const Transaction = db.define("transaction", {
   quantity: {
     type: Sequelize.INTEGER,
     allowNull: false
+  },
+  originalPrice: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    get() {
+      let balance = this.getDataValue("originalPrice");
+      return balance / 100;
+    },
+    set(value) {
+      if (!isNaN(value) && value > 0) {
+        this.setDataValue("originalPrice", value * 100);
+      }
+    }
   }
 });
 
-module.exports = Transaction
+module.exports = Transaction;

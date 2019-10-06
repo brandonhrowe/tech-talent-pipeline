@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
-router.use("/user", require("./user"));
+router.use("/user", require("./users"));
+router.use("/transaction", require("./transactions"));
 
 router.use((req, res, next) => {
   const error = new Error("Request Not Found");
