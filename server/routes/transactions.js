@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { Transaction, User } = require("../db/models");
+const fetch = require("node-fetch");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -21,20 +22,28 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    console.log(req.user.balance, req.body.originalPrice);
     if (!req.user) {
       res.status(403).send("You must be logged in to access this route");
-    } else if (
-      req.user.balance <
-      (req.body.originalPrice / 100) * req.body.quantity
-    ) {
-      res
-        .status(403)
-        .send("Sorry, you do not have enough money to buy this stock");
     } else {
+      const { symbol, quantity } = req.body;
+      const alphaData = await fetch(
+        `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=60min&apikey=${process.env.ALPHAVANTAGE_API_KEY}`
+      );
+      const newData = await alphaData.json();
+      const lastRefreshed = newData["Meta Data"]["3. Last Refreshed"];
+      const originalPrice = Math.floor(
+        newData["Time Series (60min)"][lastRefreshed]["4. close"] * 100
+      );
+      if (
+        req.user.balance <
+        (req.body.originalPrice / 100) * req.body.quantity
+      ) {
+        res
+          .status(403)
+          .send("Sorry, you do not have enough money to buy this stock");
+      }
       const { id } = req.user;
       const user = await User.findByPk(id);
-      const { symbol, quantity, originalPrice } = req.body;
       const transaction = await Transaction.create({
         symbol,
         quantity,
