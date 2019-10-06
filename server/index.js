@@ -16,7 +16,9 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-db.sync()
+if (process.env.NODE_ENV !== "production") require("../secrets");
+
+db.sync();
 
 // Session middleware
 app.use(
