@@ -16,6 +16,8 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+db.sync()
+
 // Session middleware
 app.use(
   session({
@@ -27,8 +29,11 @@ app.use(
 );
 
 // Utilize passport for authentication
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Express routes for API
+app.use("/api", require("./routes"));
 
 // Serve static files from /public directory
 app.use(express.static(path.join(__dirname, "..", "public")));

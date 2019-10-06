@@ -27,14 +27,14 @@ const User = db.define("user", {
     },
     // This is to keep the password private, by returning it as a function that will not be included in the JSON data sent back upon request
     get() {
-      return () => this.getDataValues("password");
+      return () => this.getDataValue("password");
     }
   },
   salt: {
     type: Sequelize.STRING,
     // This is to keep the salt private, by returning it as a function that will not be included in the JSON data sent back upon request
     get() {
-      return () => this.getDataValues("salt");
+      return () => this.getDataValue("salt");
     }
   },
   balance: {
@@ -45,12 +45,12 @@ const User = db.define("user", {
     },
     // The get and set properties allow for the monetary values to be stored in the database as full integers of cents, and then when sent to or retrieved from the frontend, the value will be converted to/from full dollars.
     get() {
-      let balance = this.getDataValues("balance");
+      let balance = this.getDataValue("balance");
       return balance / 100;
     },
     set(value) {
       if (!isNaN(value) && value > 0) {
-        this.setDataValues("balance", value * 100);
+        this.setDataValue("balance", value * 100);
       }
     }
   }
