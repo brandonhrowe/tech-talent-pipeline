@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Portfolio from "./components/Portfolio";
 import Transactions from "./components/Transactions";
+import AuthTemplate from "./components/AuthTemplate";
 
 class Routes extends Component {
   render() {
@@ -19,7 +20,7 @@ class Routes extends Component {
             <Route component={Portfolio} />
           </Switch>
         )}
-        <Route component={Signup} />
+        <Route component={Login} />
       </Switch>
     );
   }

@@ -10,11 +10,12 @@ class App extends Component {
     };
   }
 
+
   render() {
     const { user } = this.state;
     return (
       <div>
-        <Header user={user} />
+        {user.id ? <Header user={user} /> : null}
         <Routes user={user} />
       </div>
     );
