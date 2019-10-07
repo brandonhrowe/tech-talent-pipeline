@@ -59,12 +59,13 @@ router.post("/logout", (req, res) => {
 router.get("/auth", (req, res) => {
   if (req.user) {
     const {
-      dataValues: { id, name, email }
+      dataValues: { id, name, email, balance }
     } = req.user;
     res.send({
       id,
       name,
-      email
+      email,
+      balance
     });
   } else {
     res.status(403).send("Not logged in");

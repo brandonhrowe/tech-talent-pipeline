@@ -13,15 +13,15 @@ const Transaction = db.define("transaction", {
   originalPrice: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    get() {
-      let balance = this.getDataValue("originalPrice");
-      return balance / 100;
-    },
-    set(value) {
-      if (!isNaN(value) && value > 0) {
-        this.setDataValue("originalPrice", value * 100);
-      }
-    }
+    // get() {
+    //   let balance = this.getDataValue("originalPrice");
+    //   return balance / 100;
+    // },
+    // set(value) {
+    //   if (!isNaN(value) && value > 0) {
+    //     this.setDataValue("originalPrice", value * 100);
+    //   }
+    // }
   }
 });
 

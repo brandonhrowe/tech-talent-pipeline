@@ -44,15 +44,15 @@ const User = db.define("user", {
       min: 0
     },
     // The get and set properties allow for the monetary values to be stored in the database as full integers of cents, and then when sent to or retrieved from the frontend, the value will be converted to/from full dollars.
-    get() {
-      let balance = this.getDataValue("balance");
-      return balance / 100;
-    },
-    set(value) {
-      if (!isNaN(value) && value > 0) {
-        this.setDataValue("balance", value * 100);
-      }
-    }
+    // get() {
+    //   let balance = this.getDataValue("balance");
+    //   return balance / 100;
+    // },
+    // set(value) {
+    //   if (!isNaN(value) && value > 0) {
+    //     this.setDataValue("balance", value * 100);
+    //   }
+    // }
   }
 });
 

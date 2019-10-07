@@ -1,13 +1,15 @@
-import React, {Component} from 'react'
+import React, { Component } from "react";
+import StockForm from "./StockForm";
 
 class Portfolio extends Component {
-  render(){
+  render() {
     return (
       <div>
         PORTFOLIO PLACEHOLDER
+        <StockForm />
       </div>
-    )
+    );
   }
 }
 
-export default Portfolio
+export default Portfolio;

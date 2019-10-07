@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Header from "./components/Header";
 import Routes from "./Routes";
-import axios from "axios";
 import { currUser, auth } from "./store";
 import { connect } from "react-redux";
 

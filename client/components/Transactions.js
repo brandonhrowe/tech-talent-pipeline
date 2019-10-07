@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getTransactions } from "../store/transaction";
+import { getTransactions } from "../store";
 
 class Transactions extends Component {
   async componentDidMount() {

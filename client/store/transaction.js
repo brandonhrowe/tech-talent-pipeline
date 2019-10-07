@@ -5,13 +5,13 @@ const defaultTransactions = [];
 const SET_TRANSACTIONS = "SET_TRANSACTIONS";
 const ADD_TRANSACTION = "ADD_TRANSACTION";
 
-const getTransactions = actions => ({ actions, type: SET_TRANSACTIONS });
+const setTransactions = actions => ({ actions, type: SET_TRANSACTIONS });
 const addTransaction = action => ({ action, type: ADD_TRANSACTION });
 
 export const getTransactions = actions => async dispatch => {
   try {
-    const { data } = await axios.get("/api/transactions");
-    dispatch(getTransactions(data));
+    const { data } = await axios.get("/api/transaction");
+    dispatch(setTransactions(data));
   } catch (error) {
     console.log(error);
   }
@@ -20,7 +20,7 @@ export const getTransactions = actions => async dispatch => {
 export const createTransaction = action => async dispatch => {
   try {
     const { symbol, quantity } = action;
-    const newAction = await axios.post("/api/transactions", {
+    const newAction = await axios.post("/api/transaction", {
       symbol,
       quantity
     });

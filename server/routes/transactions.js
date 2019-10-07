@@ -30,32 +30,38 @@ router.post("/", async (req, res, next) => {
         `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=60min&apikey=${process.env.ALPHAVANTAGE_API_KEY}`
       );
       const newData = await alphaData.json();
-      const lastRefreshed = newData["Meta Data"]["3. Last Refreshed"];
-      const originalPrice = Math.floor(
-        newData["Time Series (60min)"][lastRefreshed]["4. close"] * 100
-      );
-      if (
-        req.user.balance <
-        (req.body.originalPrice / 100) * req.body.quantity
-      ) {
+      if (newData["Error Message"]) {
         res
           .status(403)
-          .send("Sorry, you do not have enough money to buy this stock");
+          .send(
+            "Sorry, that does not seem to be a valid symbol. Please try again."
+          );
+      } else {
+        const lastRefreshed = newData["Meta Data"]["3. Last Refreshed"];
+        const originalPrice = Math.floor(
+          newData["Time Series (60min)"][lastRefreshed]["4. close"] * 100
+        );
+        if (req.user.balance < (originalPrice / 100) * req.body.quantity) {
+          res
+            .status(403)
+            .send("Sorry, you do not have enough money to buy this stock");
+        }
+        const { id } = req.user;
+        const user = await User.findByPk(id);
+        const transaction = await Transaction.create({
+          symbol,
+          quantity,
+          originalPrice
+        });
+        await transaction.setUser(user);
+        const newBalance = Math.floor(
+          user.balance - transaction.originalPrice * transaction.quantity
+        );
+        await user.update({
+          balance: newBalance
+        });
+        res.status(201).json(transaction);
       }
-      const { id } = req.user;
-      const user = await User.findByPk(id);
-      const transaction = await Transaction.create({
-        symbol,
-        quantity,
-        originalPrice
-      });
-      await transaction.setUser(user);
-      const newBalance =
-        user.balance - (transaction.originalPrice / 100) * transaction.quantity;
-      await user.update({
-        balance: newBalance
-      });
-      res.status(201).json(transaction);
     }
   } catch (error) {
     next(error);
