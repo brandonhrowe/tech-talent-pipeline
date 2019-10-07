@@ -8,7 +8,7 @@ const ADD_TRANSACTION = "ADD_TRANSACTION";
 const setTransactions = actions => ({ actions, type: SET_TRANSACTIONS });
 const addTransaction = action => ({ action, type: ADD_TRANSACTION });
 
-export const getTransactions = actions => async dispatch => {
+export const getTransactions = () => async dispatch => {
   try {
     const { data } = await axios.get("/api/transaction");
     dispatch(setTransactions(data));

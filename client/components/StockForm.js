@@ -26,12 +26,9 @@ class StockForm extends Component {
     const { fields } = this.state;
     const { user, handleTransactionAdd } = this.props;
     return (
-      <div>
-        <div>Cash: ${decimalCleaner(user.balance)}</div>
-        <form
-          className="form"
-          onSubmit={handleTransactionAdd}
-        >
+      <div className="column is-half">
+        <div className="is-size-2">Cash: ${decimalCleaner(user.balance)}</div>
+        <form className="form" onSubmit={handleTransactionAdd}>
           {fields.map(({ name, type }, i) => {
             return this.renderInput(name, type, i);
           })}
@@ -59,7 +56,7 @@ const mapDispatch = dispatch => ({
       quantity: quantity.value
     };
     dispatch(createTransaction(values));
-  },
+  }
 });
 
 export default connect(
