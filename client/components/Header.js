@@ -17,7 +17,7 @@ class Header extends Component {
   }
 
   render() {
-    const { handleLogout } = this.props;
+    const { handleLogout, user } = this.props;
     const { isActive } = this.state;
     return (
       <div
@@ -70,7 +70,7 @@ class Header extends Component {
                 this.handleMobileClick();
               }}
             >
-              Log Out
+              Log Out, {user.name}
             </div>
           </div>
         </div>
@@ -79,11 +79,15 @@ class Header extends Component {
   }
 }
 
+const mapState = state => ({
+  user: state.user
+})
+
 const mapDispatch = dispatch => ({
   handleLogout: () => dispatch(logout())
 });
 
 export default connect(
-  null,
+  mapState,
   mapDispatch
 )(Header);

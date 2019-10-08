@@ -21,11 +21,11 @@ export const renderInput = function(name, type, placeholder, i) {
           name={name}
           type={type}
           placeholder={placeholder}
-          onChange={() =>
-            this.setState({
-              errors: { ...this.state.errors, [name]: null }
-            })
-          }
+          onChange={() => {
+            this.setState(prevState => ({
+              errors: { ...prevState.errors, [name]: null }
+            }));
+          }}
         />
         <p className="help has-text-danger">
           {this.state.errors[name] && this.state.errors[name].message}
