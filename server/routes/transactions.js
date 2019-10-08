@@ -90,8 +90,8 @@ const portfolioHelper = async portfolio => {
       " "
     )[0];
     // Define variables for the stock values at the opening and close (latest) of the day
-    let closeVal = newData["Time Series (Daily)"][lastRefreshed]["4. close"];
-    let openVal = newData["Time Series (Daily)"][lastRefreshed]["1. open"];
+    let closeVal = newData["Time Series (Daily)"][lastRefreshed]["4. close"] * 100;
+    let openVal = newData["Time Series (Daily)"][lastRefreshed]["1. open"] * 100;
     // Store the close value to the object to be sent back
     portfolio[i].currentValue = closeVal;
     // Also store whether the change was positive/negative/neutral based on the opening and close values

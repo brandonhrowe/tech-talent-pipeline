@@ -1,3 +1,19 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.is-clickable {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1023px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .laptop-only {
+    display: none;
+  }
+}

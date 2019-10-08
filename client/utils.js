@@ -9,17 +9,18 @@ export const decimalCleaner = num => {
   return splitVal[0] + "." + splitVal[1].slice(0, 2);
 };
 
-export const renderInput = function(name, type, i) {
+export const renderInput = function(name, type, placeholder, i) {
   return (
     <div key={i} className="field">
       <label className="label has-text-centered">
-        <small>{name}</small>
+        <small>{placeholder}:</small>
       </label>
       <div className="control">
         <input
           className="input"
           name={name}
           type={type}
+          placeholder={placeholder}
           onChange={() =>
             this.setState({
               errors: { ...this.state.errors, [name]: null }

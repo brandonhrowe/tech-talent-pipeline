@@ -10,11 +10,7 @@ class Routes extends Component {
   render() {
     const { user } = this.props;
     return (
-      <section
-        className={`hero is-fullheight${
-          user.id ? "-with-navbar" : ""
-        } is-info`}
-      >
+      <section className={"hero is-fullheight is-info"}>
         <div className="hero-body">
           <div className="container has-text-centered">
             <Switch>

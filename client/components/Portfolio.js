@@ -12,8 +12,8 @@ class Portfolio extends Component {
   render() {
     const { portfolio } = this.props;
     return (
-      <div className="columns">
-        <div className="column is-half">
+      <div className="columns is-centered">
+        <div className="column is-one-third">
           <h2 className="is-size-2">
             <u>PORTFOLIO</u>
           </h2>
@@ -30,7 +30,8 @@ class Portfolio extends Component {
                     : "has-text-dark"
                 }
               >
-                {item.symbol} - {item.quantity} Shares - {item.currentValue}
+                {item.symbol} - {item.quantity} Shares -{" "}
+                {decimalCleaner(item.currentValue)}
                 <hr />
               </div>
             ))

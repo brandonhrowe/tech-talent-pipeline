@@ -11,11 +11,13 @@ class Login extends Component {
       fields: [
         {
           name: "email",
-          type: "email"
+          type: "email",
+          placeholder: "Email"
         },
         {
           name: "password",
-          type: "password"
+          type: "password",
+          placeholder: "Password"
         }
       ],
       errors: {}
@@ -28,15 +30,18 @@ class Login extends Component {
     const { handleLogin } = this.props;
     return (
       <div className="container has-text-centered">
-        <h1 className="title has-text-black">STOCK UP</h1>
+        <h1 className="title has-text-black has-text-weight-bold is-1">
+          STOCK UP
+        </h1>
         <h2 className="has-text-black">
           <u>SIGN IN</u>
         </h2>
+        <br />
         <div className="columns is-centered">
           <div className="column is-half">
             <form className="form" onSubmit={handleLogin}>
-              {fields.map(({ name, type }, i) => {
-                return this.renderInput(name, type, i);
+              {fields.map(({ name, type, placeholder }, i) => {
+                return this.renderInput(name, type, placeholder, i);
               })}
               <div>
                 <button className="button is-success" type="submit">
@@ -52,7 +57,7 @@ class Login extends Component {
               <u>Log In</u>
             </Link>
           </div>
-          <div className="column is-narrow has-text-black">|</div>
+          <div className="column is-narrow has-text-black laptop-only">|</div>
           <div className="column is-narrow">
             <Link className="is-link has-text-black" to="/signup">
               Sign Up

@@ -10,11 +10,13 @@ class StockForm extends Component {
       fields: [
         {
           name: "symbol",
-          type: "text"
+          type: "text",
+          placeholder: "Ticker"
         },
         {
           name: "quantity",
-          type: "integer"
+          type: "integer",
+          placeholder: "Qty"
         }
       ],
       errors: {}
@@ -26,11 +28,11 @@ class StockForm extends Component {
     const { fields } = this.state;
     const { user, handleTransactionAdd } = this.props;
     return (
-      <div className="column is-half">
+      <div className="column is-one-third">
         <div className="is-size-2">Cash: ${decimalCleaner(user.balance)}</div>
         <form className="form" onSubmit={handleTransactionAdd}>
-          {fields.map(({ name, type }, i) => {
-            return this.renderInput(name, type, i);
+          {fields.map(({ name, type, placeholder }, i) => {
+            return this.renderInput(name, type, placeholder, i);
           })}
           <div>
             <button className="button is-success" type="submit">

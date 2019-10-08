@@ -11,8 +11,8 @@ class Transactions extends Component {
   render() {
     const { actions } = this.props;
     return (
-      <div className="columns">
-        <div className="column is-half">
+      <div className="columns is-centered">
+        <div className="column is-one-third">
           <h2 className="is-size-2">
             <u>TRANSACTIONS</u>
           </h2>
