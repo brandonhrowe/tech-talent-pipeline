@@ -13,7 +13,7 @@ class Routes extends Component {
       <section
         className={`hero is-fullheight${
           user.id ? "-with-navbar" : ""
-        } is-danger`}
+        } is-info`}
       >
         <div className="hero-body">
           <div className="container has-text-centered">
