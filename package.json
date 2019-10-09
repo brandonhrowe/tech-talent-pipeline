@@ -5,10 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-server": "nodemon server",
+    "start-server": "node server",
+    "start-server-nodemon": "nodemon server",
     "build": "webpack",
     "build-watch": "webpack -w",
-    "start": "npm run build-watch & npm run start-server"
+    "start": "npm run build-watch & npm run start-server",
+    "start-dev": "npm run build-watch & npm run start-server-nodemon",
+    "deploy": "script/deploy"
   },
   "author": "Brandon Rowe",
   "license": "ISC",
