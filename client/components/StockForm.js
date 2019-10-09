@@ -41,13 +41,15 @@ class StockForm extends Component {
 
   render() {
     const { fields, suggestions } = this.state;
-    const { user, handleTransactionAdd } = this.props;
+    const { user, handleTransactionAdd, handlePortfolioAdd, page } = this.props;
     return (
       <div id="stock-form" className="column is-half">
         <div className="is-size-2">Cash: ${decimalCleaner(user.balance)}</div>
         <form
           className="form"
-          onSubmit={handleTransactionAdd}
+          onSubmit={
+            page === "portfolio" ? handlePortfolioAdd : handleTransactionAdd
+          }
           onChange={this.handleSuggestion}
         >
           {fields.map(({ name, type, placeholder }, i) => {
@@ -76,8 +78,16 @@ const mapDispatch = dispatch => ({
       symbol: symbol.value,
       quantity: quantity.value
     };
-    dispatch(createPortfolioAction(values));
     dispatch(createTransaction(values));
+  },
+  handlePortfolioAdd: e => {
+    e.preventDefault();
+    const { symbol, quantity } = e.target;
+    const values = {
+      symbol: symbol.value,
+      quantity: quantity.value
+    };
+    dispatch(createPortfolioAction(values));
   }
 });
 

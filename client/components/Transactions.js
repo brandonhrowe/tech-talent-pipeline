@@ -30,7 +30,7 @@ class Transactions extends Component {
             <div>No transactions right now</div>
           )}
         </div>
-        <StockForm />
+        <StockForm page="transaction" />
       </div>
     );
   }

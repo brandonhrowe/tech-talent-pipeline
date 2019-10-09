@@ -73,7 +73,7 @@ class Portfolio extends Component {
             </button>
           ) : null}
         </div>
-        <StockForm />
+        <StockForm page="portfolio" />
       </div>
     );
   }

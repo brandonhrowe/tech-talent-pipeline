@@ -2,6 +2,8 @@
 
 Tech Talent Pipeline Stage 2 Project by Brandon Rowe
 
+Deployed at: http://rowe-tech-talent-pipeline.herokuapp.com/
+
 # To Run
 
 Fork and clone the repo: https://github.com/brandonhrowe/tech-talent-pipeline
