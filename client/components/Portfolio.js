@@ -10,9 +10,16 @@ class Portfolio extends Component {
     this.state = {
       isLoading: true
     };
+    this.reloadPage = this.reloadPage.bind(this);
   }
 
   async componentDidMount() {
+    await this.props.loadPortfolio();
+    this.setState({ isLoading: false });
+  }
+
+  async reloadPage() {
+    this.setState({ isLoading: true });
     await this.props.loadPortfolio();
     this.setState({ isLoading: false });
   }
@@ -21,9 +28,8 @@ class Portfolio extends Component {
     const { portfolio, total } = this.props;
     const { isLoading } = this.state;
     const keys = Object.keys(portfolio);
-    console.log(portfolio);
     return (
-      <div className="columns is-centered">
+      <div className="box columns is-centered">
         <div className="column is-one-third">
           <h2 className="is-size-2">
             <u>PORTFOLIO (${decimalCleaner(total)})</u>
@@ -35,7 +41,7 @@ class Portfolio extends Component {
             keys.map((item, idx) => (
               <div
                 key={idx}
-                className={`columns is-centered ${
+                className={`columns is-centered has-text-weight-semibold is-size-4 portfolio-entries ${
                   portfolio[item].change === "positive"
                     ? "has-text-success"
                     : portfolio[item].change === "negative"
@@ -57,6 +63,15 @@ class Portfolio extends Component {
               It looks like there is nothing in your transaction history
             </div>
           )}
+          {!isLoading ? (
+            <button
+              className="button is-success"
+              type="button"
+              onClick={this.reloadPage}
+            >
+              Refresh
+            </button>
+          ) : null}
         </div>
         <StockForm />
       </div>

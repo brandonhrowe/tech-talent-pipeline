@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getTransactions } from "../store";
 import { decimalCleaner } from "../utils";
+import StockForm from "./StockForm";
 
 class Transactions extends Component {
   async componentDidMount() {
@@ -11,15 +12,15 @@ class Transactions extends Component {
   render() {
     const { actions } = this.props;
     return (
-      <div className="columns is-centered">
+      <div className="box columns is-centered">
         <div className="column is-one-third">
           <h2 className="is-size-2">
             <u>TRANSACTIONS</u>
           </h2>
           <br />
           {actions && actions.length ? (
-            actions.map(action => (
-              <div key={action.id}>
+            actions.map((action, idx) => (
+              <div key={idx} className="has-text-weight-semibold has-text-left">
                 BUY ({action.symbol}) - {action.quantity} @{" "}
                 {decimalCleaner(action.originalPrice)}
                 <hr />
@@ -29,6 +30,7 @@ class Transactions extends Component {
             <div>No transactions right now</div>
           )}
         </div>
+        <StockForm />
       </div>
     );
   }

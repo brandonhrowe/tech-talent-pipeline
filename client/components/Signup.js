@@ -34,7 +34,7 @@ class Signup extends Component {
     const { fields } = this.state;
     const { handleSignup } = this.props;
     return (
-      <div className="container has-text-centered">
+      <div className="box has-text-centered">
         <h1 className="title has-text-black has-text-weight-bold is-1">
           STOCK UP
         </h1>

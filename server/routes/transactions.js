@@ -50,6 +50,7 @@ router.post("/", async (req, res, next) => {
         const originalOpen = Math.floor(
           newData["Time Series (60min)"][lastRefreshed]["1. open"] * 100
         );
+        // Store original polarity of stock for initial display on frontend; future calls will draw more up-to-date polarity
         let originalChange;
         if (originalPrice > originalOpen) {
           originalChange = "positive";
@@ -151,7 +152,7 @@ router.get("/portfolio", async (req, res, next) => {
       }
       // Call helper function to get most up-to-date data
       await portfolioHelper(portfolio);
-      // Final array sent out should have symbols and values plus total quantity, latest value, and the polarity of change.
+      // Final object sent out should have symbols for keys and values of total quantity, latest value, and the polarity of change.
       res.json(portfolio);
     }
   } catch (error) {

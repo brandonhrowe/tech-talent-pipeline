@@ -54,8 +54,9 @@ export default function(state = defaultPortfolio, action) {
             ...action.item,
             currentValue: action.item.originalPrice,
             change: action.item.originalChange,
-            quantity:
-              action.item.quantity + state.list[action.item.symbol].quantity
+            quantity: !state.list[action.item.symbol]
+              ? action.item.quantity
+              : action.item.quantity + state.list[action.item.symbol].quantity
           }
         },
         total: state.total + action.item.quantity * action.item.originalPrice

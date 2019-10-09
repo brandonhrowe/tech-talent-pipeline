@@ -1,4 +1,5 @@
 import axios from "axios";
+import { subtractFromBalance } from "./user";
 
 const defaultTransactions = [];
 
@@ -20,11 +21,12 @@ export const getTransactions = () => async dispatch => {
 export const createTransaction = action => async dispatch => {
   try {
     const { symbol, quantity } = action;
-    const newAction = await axios.post("/api/transaction", {
+    const { data: newAction } = await axios.post("/api/transaction", {
       symbol,
       quantity
     });
     dispatch(addTransaction(newAction));
+    dispatch(subtractFromBalance(newAction.quantity * newAction.originalPrice));
   } catch (error) {
     console.log(error);
   }

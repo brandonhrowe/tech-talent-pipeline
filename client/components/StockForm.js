@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { createPortfolioAction } from "../store";
+import { createPortfolioAction, createTransaction } from "../store";
 import { decimalCleaner, renderInput } from "../utils";
 import axios from "axios";
 
@@ -44,7 +44,7 @@ class StockForm extends Component {
     const { fields, suggestions } = this.state;
     const { user, handleTransactionAdd } = this.props;
     return (
-      <div className="column is-one-third">
+      <div id="stock-form" className="column is-one-third">
         <div className="is-size-2">Cash: ${decimalCleaner(user.balance)}</div>
         <form
           className="form"
@@ -52,13 +52,7 @@ class StockForm extends Component {
           onChange={this.handleSuggestion}
         >
           {fields.map(({ name, type, placeholder }, i) => {
-            return this.renderInput(
-              name,
-              type,
-              placeholder,
-              i,
-              suggestions
-            );
+            return this.renderInput(name, type, placeholder, i, suggestions);
           })}
           <div>
             <button className="button is-success" type="submit">
@@ -84,6 +78,7 @@ const mapDispatch = dispatch => ({
       quantity: quantity.value
     };
     dispatch(createPortfolioAction(values));
+    dispatch(createTransaction(values));
   }
 });
 

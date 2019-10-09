@@ -6,6 +6,19 @@ body {
   cursor: pointer;
 }
 
+.box {
+  background-color: #eeeeee;
+  border: 2px solid #000000;
+}
+
+.portfolio-entries {
+  text-shadow: -1px -1px #212121, 1px 1px #212121, 1px -1px #212121, -1px 1px #212121;
+}
+
+#stock-form {
+  border-left: 2px solid #000000;
+}
+
 @media screen and (max-width: 1023px) {
   .desktop-only {
     display: none;
@@ -15,5 +28,9 @@ body {
 @media screen and (max-width: 768px) {
   .laptop-only {
     display: none;
+  }
+  #stock-form {
+    border-left: 0;
+    border-top: 2px solid #000000;
   }
 }
