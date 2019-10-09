@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { createTransaction } from "../store";
+import { createPortfolioAction } from "../store";
 import { decimalCleaner, renderInput } from "../utils";
 import axios from "axios";
 
@@ -83,7 +83,7 @@ const mapDispatch = dispatch => ({
       symbol: symbol.value,
       quantity: quantity.value
     };
-    dispatch(createTransaction(values));
+    dispatch(createPortfolioAction(values));
   }
 });
 

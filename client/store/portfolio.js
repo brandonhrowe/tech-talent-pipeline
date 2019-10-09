@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const defaultPortfolio = [];
+const defaultPortfolio = { list: [], total: 0 };
 
 const SET_PORTFOLIO = "SET_PORTFOLIO";
 const ADD_TO_PORTFOLIO = "ADD_TO_PORTFOLIO";
@@ -20,7 +20,7 @@ export const getPortfolio = () => async dispatch => {
 export const createPortfolioAction = item => async dispatch => {
   try {
     const { symbol, quantity } = item;
-    const newItem = await axios.post("/api/transaction", {
+    const { data: newItem } = await axios.post("/api/transaction", {
       symbol,
       quantity
     });
@@ -33,9 +33,25 @@ export const createPortfolioAction = item => async dispatch => {
 export default function(state = defaultPortfolio, action) {
   switch (action.type) {
     case SET_PORTFOLIO:
-      return action.portfolio;
+      return {
+        list: action.portfolio,
+        total: action.portfolio.reduce(
+          (acc, curr) => (acc += curr.quantity * curr.currentValue),
+          0
+        )
+      };
     case ADD_TO_PORTFOLIO:
-      return [...state, action.item];
+      return {
+        list: [
+          ...state.list,
+          {
+            ...action.item,
+            currentValue: action.item.originalPrice,
+            change: action.item.originalChange
+          }
+        ],
+        total: state.total + action.item.quantity * action.item.originalPrice
+      };
     default:
       return state;
   }

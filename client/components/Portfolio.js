@@ -5,20 +5,32 @@ import { decimalCleaner } from "../utils";
 import StockForm from "./StockForm";
 
 class Portfolio extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isLoading: true
+    };
+  }
+
   async componentDidMount() {
     await this.props.loadPortfolio();
+    this.setState({ isLoading: false });
   }
 
   render() {
-    const { portfolio } = this.props;
+    const { portfolio, total } = this.props;
+    const { isLoading } = this.state;
+    console.log(portfolio);
     return (
       <div className="columns is-centered">
         <div className="column is-one-third">
           <h2 className="is-size-2">
-            <u>PORTFOLIO</u>
+            <u>PORTFOLIO (${decimalCleaner(total)})</u>
           </h2>
           <br />
-          {portfolio && portfolio.length ? (
+          {isLoading ? (
+            <div>Loading Portfolio. Please wait!</div>
+          ) : portfolio && portfolio.length ? (
             portfolio.map((item, idx) => (
               <div
                 key={idx}
@@ -36,7 +48,9 @@ class Portfolio extends Component {
               </div>
             ))
           ) : (
-            <div>Loading Portfolio. Please wait!</div>
+            <div>
+              It looks like there is nothing in your transaction history
+            </div>
           )}
         </div>
         <StockForm />
@@ -46,7 +60,8 @@ class Portfolio extends Component {
 }
 
 const mapState = state => ({
-  portfolio: state.portfolio
+  portfolio: state.portfolio.list,
+  total: state.portfolio.total
 });
 
 const mapDispatch = dispatch => ({

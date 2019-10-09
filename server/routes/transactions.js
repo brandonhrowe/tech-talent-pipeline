@@ -47,6 +47,17 @@ router.post("/", async (req, res, next) => {
         const originalPrice = Math.floor(
           newData["Time Series (60min)"][lastRefreshed]["4. close"] * 100
         );
+        const originalOpen = Math.floor(
+          newData["Time Series (60min)"][lastRefreshed]["1. open"] * 100
+        );
+        let originalChange;
+        if (originalPrice > originalOpen) {
+          originalChange = "positive";
+        } else if (originalPrice < originalOpen) {
+          originalChange = "negative";
+        } else {
+          originalChange = "neutral";
+        }
         // If user does not have enough in their balance, throw 403 error
         if (req.user.balance < (originalPrice / 100) * req.body.quantity) {
           res
@@ -59,7 +70,8 @@ router.post("/", async (req, res, next) => {
           const transaction = await Transaction.create({
             symbol,
             quantity,
-            originalPrice
+            originalPrice,
+            originalChange
           });
           await transaction.setUser(user);
           // Update user's balance by subtracting transaction cost
