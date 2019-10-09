@@ -1,5 +1,6 @@
 import axios from "axios";
 import { subtractFromBalance } from "./user";
+import { getError, resetError } from "./error";
 
 const defaultPortfolio = { list: [], total: 0 };
 
@@ -11,15 +12,18 @@ const addToPortfolio = item => ({ item, type: ADD_TO_PORTFOLIO });
 
 export const getPortfolio = () => async dispatch => {
   try {
+    dispatch(resetError());
     const { data } = await axios.get("/api/transaction/portfolio");
     dispatch(setPortfolio(data));
   } catch (error) {
+    dispatch(getError(error.response.data));
     console.log(error);
   }
 };
 
 export const createPortfolioAction = item => async dispatch => {
   try {
+    dispatch(resetError());
     const { symbol, quantity } = item;
     const { data: newItem } = await axios.post("/api/transaction", {
       symbol,
@@ -28,6 +32,7 @@ export const createPortfolioAction = item => async dispatch => {
     dispatch(addToPortfolio(newItem));
     dispatch(subtractFromBalance(newItem.quantity * newItem.originalPrice));
   } catch (error) {
+    dispatch(getError(error.response.data));
     console.log(error);
   }
 };

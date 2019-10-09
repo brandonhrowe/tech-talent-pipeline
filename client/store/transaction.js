@@ -1,5 +1,6 @@
 import axios from "axios";
 import { subtractFromBalance } from "./user";
+import { getError, resetError } from "./error";
 
 const defaultTransactions = [];
 
@@ -11,15 +12,18 @@ const addTransaction = action => ({ action, type: ADD_TRANSACTION });
 
 export const getTransactions = () => async dispatch => {
   try {
+    dispatch(resetError());
     const { data } = await axios.get("/api/transaction");
     dispatch(setTransactions(data));
   } catch (error) {
+    dispatch(getError(error.respose.data));
     console.log(error);
   }
 };
 
 export const createTransaction = action => async dispatch => {
   try {
+    dispatch(resetError());
     const { symbol, quantity } = action;
     const { data: newAction } = await axios.post("/api/transaction", {
       symbol,
@@ -28,6 +32,7 @@ export const createTransaction = action => async dispatch => {
     dispatch(addTransaction(newAction));
     dispatch(subtractFromBalance(newAction.quantity * newAction.originalPrice));
   } catch (error) {
+    dispatch(getError(error.response.data));
     console.log(error);
   }
 };

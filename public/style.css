@@ -20,10 +20,12 @@ body {
 }
 
 #error-message {
-  margin-top: -5em;
+  margin-top: -10%;
   background-color: #dc0000;
   color: #000000;
   padding: 1em;
+  z-index: 20;
+  height: fit-content;
 }
 
 @media screen and (max-width: 1023px) {

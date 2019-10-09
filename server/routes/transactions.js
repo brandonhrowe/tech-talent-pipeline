@@ -40,6 +40,12 @@ router.post("/", async (req, res, next) => {
           .send(
             "Sorry, that does not seem to be a valid symbol. Please try again."
           );
+      } else if (newData["Note"]) {
+        res
+          .status(403)
+          .send(
+            "There may have been a few too many calls to the AlphaVantage API. Please wait a few moments and try again!"
+          );
       } else {
         // Store the time of the call, which is the key for finding the applicable info
         const lastRefreshed = newData["Meta Data"]["3. Last Refreshed"];
@@ -91,7 +97,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-const portfolioHelper = async portfolio => {
+const portfolioHelper = async (portfolio, res) => {
   for (let i in portfolio) {
     if (portfolio.hasOwnProperty(i)) {
       // Query daily values for each symbol
@@ -103,6 +109,13 @@ const portfolioHelper = async portfolio => {
       if (newData["Error Message"]) {
         portfolio[i].currentValue = portfolio[i].originalPrice;
         portfolio[i].change = "neutral";
+      } else if (newData["Note"]) {
+        res
+          .status(403)
+          .send(
+            "There may have been a few too many calls to the AlphaVantage API. Please wait a few moments and try again!"
+          );
+        break;
       } else {
         // Retrieve the latest values
         const lastRefreshed = newData["Meta Data"]["3. Last Refreshed"].split(
@@ -145,13 +158,16 @@ router.get("/portfolio", async (req, res, next) => {
       for (let i = 0; i < transactions.length; i++) {
         let symb = transactions[i].symbol;
         if (!portfolio[symb]) {
-          portfolio[symb] = { symbol: symb, quantity: transactions[i].quantity };
+          portfolio[symb] = {
+            symbol: symb,
+            quantity: transactions[i].quantity
+          };
         } else {
           portfolio[symb].quantity += transactions[i].quantity;
         }
       }
       // Call helper function to get most up-to-date data
-      await portfolioHelper(portfolio);
+      await portfolioHelper(portfolio, res);
       // Final object sent out should have symbols for keys and values of total quantity, latest value, and the polarity of change.
       res.json(portfolio);
     }

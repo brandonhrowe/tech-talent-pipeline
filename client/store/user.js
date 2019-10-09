@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getError } from "./error";
+import { getError, resetError } from "./error";
 
 const defaultUser = {};
 
@@ -32,6 +32,7 @@ export const login = ({ email, password, history }) => async dispatch => {
   }
 
   try {
+    dispatch(resetError());
     dispatch(getUser(res.data));
     history.push("/portfolio");
   } catch (dispatchOrHistoryErr) {
@@ -53,19 +54,16 @@ export const signup = ({
       password
     });
   } catch (authError) {
-    return dispatch(getUser({ error: authError }));
+    return dispatch(getError(authError.response.data));
   }
 
   try {
+    dispatch(resetError());
     dispatch(getUser(res.data));
     history.push("/portfolio");
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
   }
-};
-
-export const clearError = () => dispatch => {
-  return dispatch(getUser({ error: "" }));
 };
 
 export const logout = () => async dispatch => {

@@ -28,11 +28,11 @@ export const renderInput = function(
           type={type}
           list={suggestions.length ? "suggestions" : null}
           placeholder={placeholder}
-          onChange={() => {
-            this.setState(prevState => ({
-              errors: { ...prevState.errors, [name]: null }
-            }));
-          }}
+          // onChange={() => {
+          //   this.setState(prevState => ({
+          //     errors: { ...prevState.errors, [name]: null }
+          //   }));
+          // }}
         />
         {name === "symbol" && suggestions.length ? (
           <datalist id="suggestions">
@@ -41,9 +41,9 @@ export const renderInput = function(
             ))}
           </datalist>
         ) : null}
-        <p className="help has-text-danger">
+        {/* <p className="help has-text-danger">
           {this.state.errors[name] && this.state.errors[name].message}
-        </p>
+        </p> */}
       </div>
     </div>
   );
