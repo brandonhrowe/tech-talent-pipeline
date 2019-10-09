@@ -19,8 +19,12 @@ body {
   border-left: 2px solid #000000;
 }
 
+#transactions {
+  margin-top: 2em;
+}
+
 #error-message {
-  margin-top: -10%;
+  margin-top: -15%;
   background-color: #dc0000;
   color: #000000;
   padding: 1em;

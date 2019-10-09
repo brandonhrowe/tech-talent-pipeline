@@ -12,7 +12,7 @@ class Transactions extends Component {
   render() {
     const { actions } = this.props;
     return (
-      <div className="column is-two-thirds box columns is-centered">
+      <div id="transactions" className="column is-two-thirds box columns is-centered">
         <div className="column is-half">
           <h2 className="is-size-2">
             <u>TRANSACTIONS</u>

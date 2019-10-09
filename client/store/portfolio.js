@@ -16,8 +16,8 @@ export const getPortfolio = () => async dispatch => {
     const { data } = await axios.get("/api/transaction/portfolio");
     dispatch(setPortfolio(data));
   } catch (error) {
-    dispatch(getError(error.response.data));
     console.log(error);
+    dispatch(getError(error.response.data));
   }
 };
 
@@ -32,8 +32,8 @@ export const createPortfolioAction = item => async dispatch => {
     dispatch(addToPortfolio(newItem));
     dispatch(subtractFromBalance(newItem.quantity * newItem.originalPrice));
   } catch (error) {
-    dispatch(getError(error.response.data));
     console.log(error);
+    dispatch(getError(error.response.data));
   }
 };
 

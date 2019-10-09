@@ -16,8 +16,8 @@ export const getTransactions = () => async dispatch => {
     const { data } = await axios.get("/api/transaction");
     dispatch(setTransactions(data));
   } catch (error) {
-    dispatch(getError(error.respose.data));
     console.log(error);
+    dispatch(getError(error.respose.data));
   }
 };
 
@@ -32,8 +32,8 @@ export const createTransaction = action => async dispatch => {
     dispatch(addTransaction(newAction));
     dispatch(subtractFromBalance(newAction.quantity * newAction.originalPrice));
   } catch (error) {
-    dispatch(getError(error.response.data));
     console.log(error);
+    dispatch(getError(error.response.data));
   }
 };
 

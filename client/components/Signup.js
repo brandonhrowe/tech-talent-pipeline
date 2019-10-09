@@ -24,8 +24,7 @@ class Signup extends Component {
           type: "password",
           placeholder: "Password"
         }
-      ],
-      errors: {}
+      ]
     };
     this.renderInput = renderInput.bind(this);
   }

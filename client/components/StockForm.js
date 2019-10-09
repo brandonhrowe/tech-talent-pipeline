@@ -20,8 +20,7 @@ class StockForm extends Component {
           placeholder: "Qty"
         }
       ],
-      suggestions: [],
-      errors: {}
+      suggestions: []
     };
     this.renderInput = renderInput.bind(this);
     this.handleSuggestion = this.handleSuggestion.bind(this);

@@ -98,6 +98,7 @@ router.post("/", async (req, res, next) => {
 });
 
 const portfolioHelper = async (portfolio, res) => {
+  let err = false;
   for (let i in portfolio) {
     if (portfolio.hasOwnProperty(i)) {
       // Query daily values for each symbol
@@ -105,16 +106,9 @@ const portfolioHelper = async (portfolio, res) => {
         `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${portfolio[i].symbol}&apikey=${process.env.ALPHAVANTAGE_API_KEY}`
       );
       const newData = await alphaData.json();
-      // If an error is thrown, return the last saved value and set change as neutral
-      if (newData["Error Message"]) {
-        portfolio[i].currentValue = portfolio[i].originalPrice;
-        portfolio[i].change = "neutral";
-      } else if (newData["Note"]) {
-        res
-          .status(403)
-          .send(
-            "There may have been a few too many calls to the AlphaVantage API. Please wait a few moments and try again!"
-          );
+      // If an error is thrown, flag it so an error can be sent out instead of the portfolio
+      if (newData["Error Message"] || newData["Note"]) {
+        err = true;
         break;
       } else {
         // Retrieve the latest values
@@ -139,6 +133,8 @@ const portfolioHelper = async (portfolio, res) => {
       }
     }
   }
+  if (err) return false;
+  else return portfolio;
 };
 
 router.get("/portfolio", async (req, res, next) => {
@@ -167,9 +163,17 @@ router.get("/portfolio", async (req, res, next) => {
         }
       }
       // Call helper function to get most up-to-date data
-      await portfolioHelper(portfolio, res);
+      const result = await portfolioHelper(portfolio, res);
       // Final object sent out should have symbols for keys and values of total quantity, latest value, and the polarity of change.
-      res.json(portfolio);
+      if (!result) {
+        res
+          .status(403)
+          .send(
+            "There may have been a few too many calls to the AlphaVantage API. Please wait a few moments and try again!"
+          );
+      } else {
+        res.json(portfolio);
+      }
     }
   } catch (error) {
     next(error);
