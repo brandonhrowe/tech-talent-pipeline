@@ -91,35 +91,37 @@ router.post("/", async (req, res, next) => {
 });
 
 const portfolioHelper = async portfolio => {
-  for (let i = 0; i < portfolio.length; i++) {
-    // Query daily values for each symbol
-    const alphaData = await fetch(
-      `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${portfolio[i].symbol}&apikey=${process.env.ALPHAVANTAGE_API_KEY}`
-    );
-    const newData = await alphaData.json();
-    // If an error is thrown, return the last saved value and set change as neutral
-    if (newData["Error Message"]) {
-      portfolio[i].currentValue = portfolio[i].originalPrice;
-      portfolio[i].change = "neutral";
-    } else {
-      // Retrieve the latest values
-      const lastRefreshed = newData["Meta Data"]["3. Last Refreshed"].split(
-        " "
-      )[0];
-      // Define variables for the stock values at the opening and close (latest) of the day
-      let closeVal =
-        newData["Time Series (Daily)"][lastRefreshed]["4. close"] * 100;
-      let openVal =
-        newData["Time Series (Daily)"][lastRefreshed]["1. open"] * 100;
-      // Store the close value to the object to be sent back
-      portfolio[i].currentValue = closeVal;
-      // Also store whether the change was positive/negative/neutral based on the opening and close values
-      if (closeVal > openVal) {
-        portfolio[i].change = "positive";
-      } else if (closeVal < openVal) {
-        portfolio[i].change = "negative";
-      } else {
+  for (let i in portfolio) {
+    if (portfolio.hasOwnProperty(i)) {
+      // Query daily values for each symbol
+      const alphaData = await fetch(
+        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${portfolio[i].symbol}&apikey=${process.env.ALPHAVANTAGE_API_KEY}`
+      );
+      const newData = await alphaData.json();
+      // If an error is thrown, return the last saved value and set change as neutral
+      if (newData["Error Message"]) {
+        portfolio[i].currentValue = portfolio[i].originalPrice;
         portfolio[i].change = "neutral";
+      } else {
+        // Retrieve the latest values
+        const lastRefreshed = newData["Meta Data"]["3. Last Refreshed"].split(
+          " "
+        )[0];
+        // Define variables for the stock values at the opening and close (latest) of the day
+        let closeVal =
+          newData["Time Series (Daily)"][lastRefreshed]["4. close"] * 100;
+        let openVal =
+          newData["Time Series (Daily)"][lastRefreshed]["1. open"] * 100;
+        // Store the close value to the object to be sent back
+        portfolio[i].currentValue = closeVal;
+        // Also store whether the change was positive/negative/neutral based on the opening and close values
+        if (closeVal > openVal) {
+          portfolio[i].change = "positive";
+        } else if (closeVal < openVal) {
+          portfolio[i].change = "negative";
+        } else {
+          portfolio[i].change = "neutral";
+        }
       }
     }
   }
@@ -138,23 +140,13 @@ router.get("/portfolio", async (req, res, next) => {
         }
       });
       // Establish a portfolio object to concatenate transactions with the same symbol, and add together the quantity for each
-      let portfolio = [];
-      let hashMap = {};
-      let prevIdx = 0;
-      let newIdx = 0;
-      while (prevIdx < transactions.length) {
-        let symb = transactions[prevIdx].symbol;
-        if (!hashMap[symb] && hashMap[symb] !== 0) {
-          hashMap[symb] = newIdx;
-          portfolio[newIdx] = {
-            symbol: symb,
-            quantity: transactions[prevIdx].quantity
-          };
-          newIdx++;
-          prevIdx++;
+      let portfolio = {};
+      for (let i = 0; i < transactions.length; i++) {
+        let symb = transactions[i].symbol;
+        if (!portfolio[symb]) {
+          portfolio[symb] = { symbol: symb, quantity: transactions[i].quantity };
         } else {
-          portfolio[hashMap[symb]].quantity += transactions[prevIdx].quantity;
-          prevIdx++;
+          portfolio[symb].quantity += transactions[i].quantity;
         }
       }
       // Call helper function to get most up-to-date data

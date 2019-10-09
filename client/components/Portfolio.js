@@ -20,6 +20,7 @@ class Portfolio extends Component {
   render() {
     const { portfolio, total } = this.props;
     const { isLoading } = this.state;
+    const keys = Object.keys(portfolio);
     console.log(portfolio);
     return (
       <div className="columns is-centered">
@@ -30,20 +31,24 @@ class Portfolio extends Component {
           <br />
           {isLoading ? (
             <div>Loading Portfolio. Please wait!</div>
-          ) : portfolio && portfolio.length ? (
-            portfolio.map((item, idx) => (
+          ) : portfolio && keys.length ? (
+            keys.map((item, idx) => (
               <div
                 key={idx}
-                className={
-                  item.change === "positive"
+                className={`columns is-centered ${
+                  portfolio[item].change === "positive"
                     ? "has-text-success"
-                    : item.change === "negative"
+                    : portfolio[item].change === "negative"
                     ? "has-text-danger"
                     : "has-text-dark"
-                }
+                }`}
               >
-                {item.symbol} - {item.quantity} Shares -{" "}
-                {decimalCleaner(item.currentValue)}
+                <div className="column">
+                  {portfolio[item].symbol} - {portfolio[item].quantity} Shares
+                </div>
+                <div className="column">
+                  ${decimalCleaner(portfolio[item].currentValue)}/Share
+                </div>
                 <hr />
               </div>
             ))
