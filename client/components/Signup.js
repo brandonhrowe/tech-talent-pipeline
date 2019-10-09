@@ -34,11 +34,11 @@ class Signup extends Component {
     const { fields } = this.state;
     const { handleSignup } = this.props;
     return (
-      <div className="box has-text-centered">
+      <div className="column is-half box has-text-centered">
         <h1 className="title has-text-black has-text-weight-bold is-1">
           STOCK UP
         </h1>
-        <h2 className="has-text-black">
+        <h2 className="has-text-black is-size-4">
           <u>REGISTER</u>
         </h2>
         <br />

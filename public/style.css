@@ -19,6 +19,13 @@ body {
   border-left: 2px solid #000000;
 }
 
+#error-message {
+  margin-top: -5em;
+  background-color: #dc0000;
+  color: #000000;
+  padding: 1em;
+}
+
 @media screen and (max-width: 1023px) {
   .desktop-only {
     display: none;

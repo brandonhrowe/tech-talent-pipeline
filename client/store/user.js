@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getError } from "./error";
 
 const defaultUser = {};
 
@@ -27,7 +28,7 @@ export const login = ({ email, password, history }) => async dispatch => {
       password
     });
   } catch (authError) {
-    return dispatch(getUser({ error: authError }));
+    return dispatch(getError(authError.response.data));
   }
 
   try {

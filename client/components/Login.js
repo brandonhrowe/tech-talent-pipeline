@@ -29,11 +29,11 @@ class Login extends Component {
     const { fields } = this.state;
     const { handleLogin } = this.props;
     return (
-      <div className="box has-text-centered">
+      <div className="column is-half box has-text-centered">
         <h1 className="title has-text-black has-text-weight-bold is-1">
           STOCK UP
         </h1>
-        <h2 className="has-text-black">
+        <h2 className="has-text-black is-size-4">
           <u>SIGN IN</u>
         </h2>
         <br />
@@ -47,6 +47,7 @@ class Login extends Component {
                 <button className="button is-success" type="submit">
                   Log In
                 </button>
+                <br />
               </div>
             </form>
           </div>

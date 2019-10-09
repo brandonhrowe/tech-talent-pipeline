@@ -44,7 +44,7 @@ class StockForm extends Component {
     const { fields, suggestions } = this.state;
     const { user, handleTransactionAdd } = this.props;
     return (
-      <div id="stock-form" className="column is-one-third">
+      <div id="stock-form" className="column is-half">
         <div className="is-size-2">Cash: ${decimalCleaner(user.balance)}</div>
         <form
           className="form"

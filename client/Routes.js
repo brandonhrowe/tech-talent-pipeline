@@ -12,7 +12,7 @@ class Routes extends Component {
     return (
       <section className={"hero is-fullheight is-info"}>
         <div className="hero-body">
-          <div className="container has-text-centered">
+          <div className="container has-text-centered columns is-centered">
             <Switch>
               {user.id && (
                 <Switch>

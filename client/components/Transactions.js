@@ -12,15 +12,15 @@ class Transactions extends Component {
   render() {
     const { actions } = this.props;
     return (
-      <div className="box columns is-centered">
-        <div className="column is-one-third">
+      <div className="column is-two-thirds box columns is-centered">
+        <div className="column is-half">
           <h2 className="is-size-2">
             <u>TRANSACTIONS</u>
           </h2>
           <br />
           {actions && actions.length ? (
             actions.map((action, idx) => (
-              <div key={idx} className="has-text-weight-semibold has-text-left">
+              <div key={idx} className="has-text-weight-semibold has-text-left has-text-centered-mobile">
                 BUY ({action.symbol}) - {action.quantity} @{" "}
                 {decimalCleaner(action.originalPrice)}
                 <hr />

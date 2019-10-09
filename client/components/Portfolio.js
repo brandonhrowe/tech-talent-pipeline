@@ -29,8 +29,8 @@ class Portfolio extends Component {
     const { isLoading } = this.state;
     const keys = Object.keys(portfolio);
     return (
-      <div className="box columns is-centered">
-        <div className="column is-one-third">
+      <div className="column is-two-thirds box columns is-centered">
+        <div className="column is-half">
           <h2 className="is-size-2">
             <u>PORTFOLIO (${decimalCleaner(total)})</u>
           </h2>

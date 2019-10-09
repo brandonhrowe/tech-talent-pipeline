@@ -70,7 +70,7 @@ class Header extends Component {
                 this.handleMobileClick();
               }}
             >
-              Log Out, {user.name}
+              Log Out {user.name}
             </div>
           </div>
         </div>
