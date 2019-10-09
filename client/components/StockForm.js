@@ -33,9 +33,7 @@ class StockForm extends Component {
     });
     if (e.target.name === "symbol" && e.target.value) {
       const text = e.target.value;
-      const { data } = await axios.get(
-        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${text}&apikey=${process.env.ALPHAVANTAGE_API_KEY}`
-      );
+      const { data } = await axios.get(`/api/suggestions/${text}`);
       this.setState({
         suggestions: data.bestMatches
       });
@@ -58,8 +56,8 @@ class StockForm extends Component {
               name,
               type,
               placeholder,
-              i
-              // this.handleSuggestion
+              i,
+              suggestions
             );
           })}
           <div>
@@ -68,13 +66,6 @@ class StockForm extends Component {
             </button>
           </div>
         </form>
-        {suggestions.length
-          ? suggestions.map((sug, idx) => (
-              <div key={idx}>
-                Symbol: {sug["1. symbol"]}, Name: {sug["2. name"]}
-              </div>
-            ))
-          : null}
       </div>
     );
   }

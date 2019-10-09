@@ -85,22 +85,30 @@ const portfolioHelper = async portfolio => {
       `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${portfolio[i].symbol}&apikey=${process.env.ALPHAVANTAGE_API_KEY}`
     );
     const newData = await alphaData.json();
-    // Retrieve the latest values
-    const lastRefreshed = newData["Meta Data"]["3. Last Refreshed"].split(
-      " "
-    )[0];
-    // Define variables for the stock values at the opening and close (latest) of the day
-    let closeVal = newData["Time Series (Daily)"][lastRefreshed]["4. close"] * 100;
-    let openVal = newData["Time Series (Daily)"][lastRefreshed]["1. open"] * 100;
-    // Store the close value to the object to be sent back
-    portfolio[i].currentValue = closeVal;
-    // Also store whether the change was positive/negative/neutral based on the opening and close values
-    if (closeVal > openVal) {
-      portfolio[i].change = "positive";
-    } else if (closeVal < openVal) {
-      portfolio[i].change = "negative";
-    } else {
+    // If an error is thrown, return the last saved value and set change as neutral
+    if (newData["Error Message"]) {
+      portfolio[i].currentValue = portfolio[i].originalPrice;
       portfolio[i].change = "neutral";
+    } else {
+      // Retrieve the latest values
+      const lastRefreshed = newData["Meta Data"]["3. Last Refreshed"].split(
+        " "
+      )[0];
+      // Define variables for the stock values at the opening and close (latest) of the day
+      let closeVal =
+        newData["Time Series (Daily)"][lastRefreshed]["4. close"] * 100;
+      let openVal =
+        newData["Time Series (Daily)"][lastRefreshed]["1. open"] * 100;
+      // Store the close value to the object to be sent back
+      portfolio[i].currentValue = closeVal;
+      // Also store whether the change was positive/negative/neutral based on the opening and close values
+      if (closeVal > openVal) {
+        portfolio[i].change = "positive";
+      } else if (closeVal < openVal) {
+        portfolio[i].change = "negative";
+      } else {
+        portfolio[i].change = "neutral";
+      }
     }
   }
 };

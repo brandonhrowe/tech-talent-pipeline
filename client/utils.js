@@ -9,7 +9,13 @@ export const decimalCleaner = num => {
   return splitVal[0] + "." + splitVal[1].slice(0, 2);
 };
 
-export const renderInput = function(name, type, placeholder, i) {
+export const renderInput = function(
+  name,
+  type,
+  placeholder,
+  i,
+  suggestions = []
+) {
   return (
     <div key={i} className="field">
       <label className="label has-text-centered">
@@ -20,6 +26,7 @@ export const renderInput = function(name, type, placeholder, i) {
           className="input"
           name={name}
           type={type}
+          list={suggestions.length ? "suggestions" : null}
           placeholder={placeholder}
           onChange={() => {
             this.setState(prevState => ({
@@ -27,6 +34,13 @@ export const renderInput = function(name, type, placeholder, i) {
             }));
           }}
         />
+        {name === "symbol" && suggestions.length ? (
+          <datalist id="suggestions">
+            {suggestions.map((sug, idx) => (
+              <option key={idx} value={sug["1. symbol"]} />
+            ))}
+          </datalist>
+        ) : null}
         <p className="help has-text-danger">
           {this.state.errors[name] && this.state.errors[name].message}
         </p>
